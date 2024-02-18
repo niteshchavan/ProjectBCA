@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Prices</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="ITCChart" width="800" height="400"></canvas>
+    <canvas id="TCSChart" width="800" height="400"></canvas>
+    <canvas id="WIPROChart" width="800" height="400"></canvas>
+    <script>
+        // Function to make AJAX request
+        function fetchData(url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    callback(data);
+                }
+            };
+            xhr.send();
+        }
+
+        // Function to render charts
+        function renderCharts(jsonData) {
+            var companies = Object.keys(jsonData);
+            var chartData = {};
+			
+            companies.forEach(function(company) {
+			
+                chartData[company] = {
+                    labels: jsonData[company].dates,
+                    datasets: [
+                        {
+                            label: 'Historical Prices',
+                            data: jsonData[company].historical_prices,
+                            borderColor: 'blue',
+                            backgroundColor: 'transparent'
+                        },
+                        {
+                            label: 'Predicted Prices',
+                            data: jsonData[company].predicted_prices,
+                            borderColor: 'red',
+                            backgroundColor: 'transparent'
+                        }
+                    ]
+                };
+
+                var ctx = document.getElementById(company + 'Chart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: chartData[company],
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: false
+									
+                                }
+                            }]
+                        }
+                    }
+                });
+            });
+        }
+
+        // Fetch data from the server
+        fetchData('http://192.168.0.100:5000/data', renderCharts);
+    </script>
+</body>
+</html>

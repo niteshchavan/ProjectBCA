@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Ticker Tape</title>
+    <style>
+        .ticker-tape {
+            background-color: black;
+            color: white;
+            padding: 1px 0; /* Add some padding for better spacing */
+			font-size: 20px;
+			font-weight: bold;
+        }
+        .symbol {
+            margin-right: 20px; /* Adjust margin to increase space between symbols */
+        }		
+    </style>
+</head>
+<body>
+    <div class="ticker-tape">
+        <marquee behavior="scroll" direction="left" scrollamount="8">
+            {% for stock in stocks %}
+				<span class="symbol">{{ stock[0] }} : {{ stock[1] }} 
+
+                {% if stock[1] > 1000 %}
+                    <span style="color:green">&#9650;</span>
+                {% elif stock[1] < 1000 %}
+                    <span style="color:red">&#9660;</span>
+                {% else %}
+                    <span>&#8596;</span>
+                {% endif %}
+                {% if not loop.last %}  {% endif %} </span>
+            {% endfor %}
+        </marquee>
+    </div>
+</body>
+</html>

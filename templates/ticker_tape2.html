@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Ticker Tape</title>
+    <style>
+        .ticker-tape {
+            background-color: black;
+            color: white;
+            padding: 1px 0; /* Add some padding for better spacing */
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .symbol {
+            margin-right: 20px; /* Adjust margin to increase space between symbols */
+        }
+        .scrollable-container {
+            background-color: lightblue;
+            width: 300px;
+            height: 110px;
+            overflow-y: scroll;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticker-tape">
+        <marquee behavior="scroll" direction="left" scrollamount="8" id="ticker-marquee">
+            <!-- Stock data will be inserted here dynamically -->
+        </marquee>
+    </div>
+
+    <div class="scrollable-container">
+        <ul id="item-list">
+            <!-- List items will be inserted here dynamically -->
+        </ul>
+    </div>
+    <form id="addForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="code">Code:</label><br>
+        <input type="text" id="code" name="code"><br><br>
+        <input type="button" value="Submit" onclick="addItem()">
+    </form>
+
+    <script src="static/functions.js"></script>
+</body>
+</html>
